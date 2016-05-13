@@ -1,0 +1,619 @@
+/*Mdata.java*/
+import java.applet.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+
+class MData{
+  MyPanel myPanel;
+  int i = 0, j= 0;
+      int  data [][] = {
+     { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+     { 1,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1},
+     { 1,0,0,4,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,1},
+     { 1,4,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,0,1},
+     { 1,4,0,0,4,0,0,5,0,4,0,0,0,0,0,0,0,0,0,1},
+     { 1,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1},
+     { 1,4,0,0,0,0,1,0,0,4,0,0,0,0,0,1,0,0,0,1},
+     { 1,4,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,0,1},
+     { 1,4,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,1},
+     { 1,4,1,1,4,1,1,5,1,1,1,0,1,0,1,1,1,1,1,1},
+     { 1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+     { 1,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1},
+     { 1,0,0,0,1,0,0,0,0,5,0,0,0,0,0,0,0,0,0,1},
+     { 1,0,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1},
+     { 1,4,0,4,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+     { 1,0,1,1,0,1,0,1,0,1,1,1,1,0,1,1,1,1,0,1},
+     { 1,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+     { 1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+     { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1},
+     { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+    };
+
+
+    MData(MyPanel mp) {
+      myPanel = mp;
+    }
+
+
+    void draw(Graphics g) {
+       for(i = 0;i < 20; i ++){
+          for(j = 0; j < 20; j++){
+            if(data[i][j] ==1){
+              g.setColor(Color.BLACK);//壁
+              g.fillRect(j*20,i*20,20,20);
+            }
+            if(data[i][j] == 2){
+              g.setColor(Color.GREEN);//出口
+              g.fillRect(j*20,i*20,20,20);
+            }
+            if(data[i][j] == 4){
+              g.setColor(new Color(255,20,147));
+              g.fillRect(j*20,i*20,20,20);
+            }
+
+            if(data[i][j] == 5){
+              g.setColor(new Color(124,252,122));
+              g.fillRect(j*20,i*20,20,20);
+            }
+
+            if(data[i][j] == 6){
+              g.setColor(new Color(255,140,0));
+              g.fillRect(j*20,i*20,20,20);
+            }
+
+            if(data[i][j] > 7){
+                  g.setColor(Color.RED);//
+                  g.fillRect(j*20,i*20,20,20);
+                }
+
+        }
+      }
+    }
+
+   void update(int i, int j, int up){
+     data[i][j] = up;
+   }
+
+   int searchData(){
+     int pnumber = 0;
+     for(i = 0;i < 20; i ++){
+         for(j = 0; j < 20; j++){
+           if(data[i][j] > 7){
+             pnumber = data[i][j];
+           }
+       }
+     }
+     if(pnumber != 0)
+       return pnumber + 1;
+     else
+       return 8;
+   }
+
+
+   int getCenter(int pnumber){
+     int pd = 0;
+     for(i = 0;i < 20; i ++){
+         for(j = 0; j < 20; j++){
+           if(data[i][j] == pnumber){
+             pd = data[i][j];
+           }
+
+       }
+     }
+     return pd;
+   }
+
+   boolean anotherCheck(int pnumber){
+     for(i = 0;i < 20; i ++){
+         for(j = 0; j < 20; j++){
+           if(data[i][j] != pnumber && pnumber >= 8){
+             return true;
+           }
+       }
+     }
+     return false;
+   }
+
+
+   boolean clearCheck(){
+     for(i = 0;i < 20; i ++){
+         for(j = 0; j < 20; j++){
+           if(data[i][j] == 2){
+             return false;
+           }
+       }
+     }
+     return true;
+   }
+
+   int getLeft(int pnumber){
+     int pd = 0;
+     for(i = 0;i < 20; i ++){
+         for(j = 0; j < 20; j++){
+           if(data[i][j] == pnumber){
+             pd = data[i][j-1];
+           }
+       }
+     }
+     return pd;
+   }
+
+   int getRight(int pnumber){
+     int pd = 0;
+     for(i = 0;i < 20; i ++){
+         for(j = 0; j < 20; j++){
+           if(data[i][j] == pnumber){
+             pd = data[i][j+1];
+           }
+       }
+     }
+     return pd;
+   }
+
+   int getDown(int pnumber){
+     int pd = 0;
+     for(i = 0;i < 20; i ++){
+         for(j = 0; j < 20; j++){
+           if(data[i][j] == pnumber){
+             pd = data[i+1][j];
+           }
+       }
+     }
+     return pd;
+   }
+
+   int getUp(int pnumber){
+     int pd = 0;
+     for(i = 0;i < 20; i ++){
+         for(j = 0; j < 20; j++){
+           if(data[i][j] == pnumber){
+             pd = data[i-1][j];
+           }
+
+       }
+     }
+     return pd;
+   }
+
+   int moveRight(int pnumber){
+     int damage = 0;
+     for(i = 0;i < 20; i ++){
+          for(j = 0; j < 20; j++){
+            if(data[i][j] == pnumber){
+              if(data[i][j+1]!=1){
+                if(data[i][j+1] == 4)
+                  damage = 1;
+                  data[i][j] = 0;
+                  data[i][j+1] = pnumber;
+                  return damage;
+
+                }
+              }
+            }
+        }
+        return 0;
+      }
+
+
+   int moveLeft(int pnumber){
+     int damage = 0;
+     for(i = 0;i < 20; i ++){
+          for(j = 0; j < 20; j++){
+            if(data[i][j] == pnumber){
+              if(data[i][j-1]!=1){
+                if(data[i][j-1] == 4)
+                  damage = 1;
+                  data[i][j] = 0;
+                  data[i][j-1] = pnumber;
+                  return damage;
+                }
+            }
+
+        }
+      }
+      return 0;
+    }
+
+
+   int moveUp(int pnumber){
+     int damage = 0;
+     for(i = 0;i < 20; i ++){
+          for(j = 0; j < 20; j++){
+            if(data[i][j] == pnumber){
+              if(data[i-1][j]!=1){
+                if(data[i-1][j] == 4)
+                  damage = 1;
+                data[i][j] = 0;
+                data[i-1][j] = pnumber;
+                return damage;
+              }
+            }
+
+         }
+      }
+      return 0;
+   }
+
+
+
+   int moveDown(int pnumber){
+     int damage = 0;
+     for(i = 0;i < 20; i ++){
+          for(j = 0; j < 20; j++){
+            //System.out.print(data[i][j]+",");
+            if(data[i][j] == pnumber){
+              if(data[i+1][j]!=1){
+                if(data[i+1][j] == 4)
+                  damage = 1;
+                data[i][j] = 0;
+                data[i+1][j] = pnumber;
+                return damage;
+                }
+              }
+            }
+        }
+        return 0;
+
+    }
+
+
+
+
+}
+
+
+
+
+/*Mazes.java*/
+import java.util.*;
+import java.net.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.*;
+import java.io.*;
+
+class MyPanel extends JPanel {
+  final MData md;
+
+  public MyPanel(){
+    md = new MData(this);
+  }
+
+
+  public void paintComponent(Graphics g) {
+      super.paintComponent(g);
+      md.draw(g);
+      repaint();
+    }
+
+
+  public void painters(){
+    repaint();
+  }
+}
+
+
+class InputData extends Thread{
+  Socket sock;
+  String str;
+  MyPanel panel;
+  int n = 0;
+  int pnumber;
+  int hp = 10;
+  public InputData(Socket s, MyPanel p){
+    sock = s;
+    panel = p;
+    pnumber = panel.md.searchData();
+    panel.md.update(1,1,pnumber);
+    System.out.println("connecting!!" + sock.getRemoteSocketAddress());
+  }
+
+  public void run(){
+    try{
+      InputStream is = sock.getInputStream();
+      OutputStream os = sock.getOutputStream();
+      BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+      PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+      System.out.println("your number ="+pnumber);
+      String line;
+      boolean clear;
+      boolean anotherP;
+      int first = 1;
+      while((line = in.readLine()) != null){
+
+        System.out.println(sock.getRemoteSocketAddress() + "Recieved:" + line);
+        if(line.equals("d")){
+          String canMove = null;
+          hp -= panel.md.moveRight(pnumber);
+          if(hp == 0){canMove = "GAMEOVER";out.println(canMove);}
+          panel.painters();
+          clear = panel.md.clearCheck();
+          System.out.println(hp);
+          anotherP = panel.md.anotherCheck(pnumber);
+          if(first == 1){
+            if(anotherP){
+              canMove = "他のプレイヤーがいます/";
+              first = 0;
+            }
+          }
+
+
+          if(clear == true){
+            canMove = ("clear!!!");
+          }
+          else{
+
+             canMove += "行けるところ/";
+
+            int l = panel.md.getLeft(pnumber);
+            int r = panel.md.getRight(pnumber);
+            int d = panel.md.getDown(pnumber);
+            int u = panel.md.getUp(pnumber);
+            if(l !=1){
+              canMove += " ← ";
+            }
+            if(r!=1){
+              canMove += " → ";
+            }
+
+            if(d!=1){
+              canMove += " ↓ ";
+            }
+
+            if(u!=1){
+              canMove += " ↑ ";
+            }
+          }
+            out.println(canMove);
+          }
+
+        if(line.equals("a")){
+          hp -=  panel.md.moveLeft(pnumber);
+          panel.painters();
+          clear = panel.md.clearCheck();
+
+          System.out.println(hp);
+          String canMove;
+          if(hp == 0){canMove = "GAMEOVER";out.println(canMove);}
+          if(clear == true){
+            canMove = ("clear!!!");
+          }
+          else{
+            canMove = "行けるところ";
+            int l = panel.md.getLeft(pnumber);
+            int r = panel.md.getRight(pnumber);
+            int d = panel.md.getDown(pnumber);
+            int u = panel.md.getUp(pnumber);
+            if(l !=1){
+              canMove += " ← ";
+            }
+            if(r!=1){
+              canMove += " → ";
+            }
+
+            if(d!=1){
+              canMove += " ↓ ";
+            }
+
+            if(u!=1){
+              canMove += " ↑ ";
+            }
+          }
+            out.println(canMove);
+          }
+
+
+        if(line.equals("w")){
+          hp -=  panel.md.moveUp(pnumber);
+          panel.painters();
+
+          clear = panel.md.clearCheck();
+          System.out.println(hp);
+          String canMove;
+          if(hp == 0){canMove = "GAMEOVER";out.println(canMove);}
+          if(clear == true){
+            canMove = ("clear!!!");
+          }
+          else{
+            canMove = "行けるところ";
+            int l = panel.md.getLeft(pnumber);
+            int r = panel.md.getRight(pnumber);
+            int d = panel.md.getDown(pnumber);
+            int u = panel.md.getUp(pnumber);
+            if(l !=1){
+              canMove += " ← ";
+            }
+            if(r!=1){
+              canMove += " → ";
+            }
+
+            if(d!=1){
+              canMove += " ↓ ";
+            }
+
+            if(u!=1){
+              canMove += " ↑ ";
+            }
+          }
+            out.println(canMove);
+          }
+
+
+        if(line.equals("s")){
+          hp -=  panel.md.moveDown(pnumber);
+          panel.painters();
+          clear = panel.md.clearCheck();
+          System.out.println(hp);
+          String canMove;
+          if(hp == 0){canMove = "GAMEOVER";out.println(canMove);}
+          if(clear == true){
+            canMove = ("clear!!!");
+          }
+          else{
+            canMove = "行けるところ";
+            int l = panel.md.getLeft(pnumber);
+            int r = panel.md.getRight(pnumber);
+            int d = panel.md.getDown(pnumber);
+            int u = panel.md.getUp(pnumber);
+            if(l !=1){
+              canMove += " ← ";
+            }
+            if(r!=1){
+              canMove += " → ";
+            }
+
+            if(d!=1){
+              canMove += " ↓ ";
+            }
+
+            if(u!=1){
+              canMove += " ↑ ";
+            }
+          }
+            out.println(canMove);
+          }
+
+
+      }
+
+    }
+
+
+
+    catch (Exception e){}
+    finally {
+      try {
+        if(sock != null){
+          //sock.close();
+        }
+      }
+      catch (Exception e){}
+    }
+
+      //System.out.println("goodbye");
+
+  }
+    public void setStr(String s){
+
+    }
+}
+
+
+
+
+class Mazes extends JFrame {
+  static final int PORT = 60000;
+  static final int BUFSIZ = 1024;
+  public static void main(String[] args) {
+      Socket asock;
+      String str;
+      ServerSocket ssock = null;
+      JFrame f = new JFrame();
+      f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      f.setSize(600, 600);
+      Container contentPane = f.getContentPane();
+      MyPanel p = new MyPanel();
+
+      contentPane.add(p);
+      f.setVisible(true);
+
+
+      try {
+          ssock = new ServerSocket(PORT);
+          System.out.println("server wake up(port="+ssock.getLocalPort() +")");
+        while(true){
+
+          asock = ssock.accept();
+          InputData id = new InputData(asock,p);
+          id.start();
+      }
+
+    }
+    catch (Exception e){
+      System.out.println("error");
+      System.exit(1);
+    }
+    finally{
+      try{
+        if(ssock != null){
+          ssock.close();
+        }
+      }
+      catch(Exception e){}
+    }
+
+  }
+}
+
+
+/*Mazec.java*/
+import java.util.*;
+import java.net.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.*;
+import java.io.*;
+
+
+public class Mazec {
+  static final int PORT = 60000; //  ポート番号：自分用に変更すること
+  static final int BUFSIZ = 1024; //  バッファサイズ
+  public static void main(String[] args) {
+    InputStream is;
+    OutputStream os;
+    Socket sock = null;
+    byte buf[] = new byte[BUFSIZ];
+    int n;
+    if (args.length < 1) {
+      System.out.println("few arguments!!");
+      System.exit(1);
+    }
+    try {
+
+        sock = new Socket(args[0],PORT);// サーバソケット作成
+        System.out.println("接続しました" +sock.getRemoteSocketAddress());
+        BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+        PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+        BufferedReader keyIn = new BufferedReader(new InputStreamReader(System.in));
+        int check=0;
+        String moveC = null;
+        do {
+            System.out.println(" a:← s:↓ d:→ w:↑ >>");
+            check = (moveC = keyIn.readLine()).length();
+            out.println(moveC);
+            String line = in.readLine();
+            if(line != null){
+              System.out.println(line);
+              if(line.equals("clear!!!")){
+                 sock.close();
+               }
+               if(line.equals("GAMEOVER")){
+                  sock.close();
+                }
+            }
+            else{
+              break;
+            }
+        }while(check > 0);
+    }
+
+    catch(Exception e){}
+      finally {
+        try{
+          if(sock != null){
+              sock.close();
+          }
+        }
+        catch (Exception e){}
+
+      }
+  }
+}
